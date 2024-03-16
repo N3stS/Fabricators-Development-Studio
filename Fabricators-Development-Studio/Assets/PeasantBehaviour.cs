@@ -7,19 +7,15 @@ using UnityEngine;
 public class PeasantBehaviour : MonoBehaviour
 {
     [SerializeField] private GameObject _peasantJob;
-    [SerializeField] private GameObject _peasantObjective;
-    private bool _peasantWorkReady = true;
-    private bool _peasantJobFound;
-    private bool _peasantObjectiveFound;
+    private GameObject _peasantObjective;
+    private bool _peasantWorkReady = false;
+    private bool _peasantJobFound = true;
+    private bool _peasantObjectiveFound = false;
     private Transform _target;
     private Transform[] _newTarget;
 
     void Awake()
     {
-        _target = _peasantObjective.transform;
-        
-        _peasantWorkReady = true;
-
         if (_peasantJob == null)
         {
             NoCurrentJob();
@@ -27,15 +23,6 @@ public class PeasantBehaviour : MonoBehaviour
         else if (_peasantJob != null)
         {
             JobFound();
-        }
-
-        if (_peasantObjective == null)
-        {
-            NoCurrentObjective();
-        }
-        else if (_peasantObjective != null)
-        {
-            ObjectiveFound();
         }
     }
 
@@ -46,35 +33,66 @@ public class PeasantBehaviour : MonoBehaviour
         {
             var step = GetComponent<PeasantMovement>()._peasantSpeed * Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, _target.position, step);
-            Debug.Log("Speed is: " + transform.position);
         }
     }
     void NoCurrentJob()
     {
+        _peasantJobFound = true;
 
+        JobFound();
     }
 
     void JobFound()
     {
-        _peasantJobFound = true;
-        if (_peasantJobFound == true && _peasantObjectiveFound == true) 
+        if (_peasantObjectiveFound)
         {
-            _peasantWorkReady = true;
+            WorkReady();
+        }
+        else
+        {
+            NoCurrentObjective();
         }
     }
 
     void NoCurrentObjective()
     {
+        if (!_peasantObjectiveFound)
+        {
+            _peasantObjective = GameObject.FindGameObjectWithTag("Work");
+            _target = _peasantObjective.transform;
+            Debug.Log("Found Work: " + _peasantObjective.name);
+            _peasantObjectiveFound = true;
+        }
+        else if (_peasantObjectiveFound && _peasantObjective.tag == "Work")
+        {
+            _peasantObjective = null;
+            _peasantObjective = GameObject.FindGameObjectWithTag("Chests");
+            _target = _peasantObjective.transform;
+            Debug.Log("Found Work: " + _peasantObjective.name);
+            _peasantObjectiveFound = true;
+        }
+        else if (_peasantObjectiveFound && _peasantObjective.tag == "Chests")
+        {
+            _peasantObjective = null;
+            _peasantObjective = GameObject.FindGameObjectWithTag("Work");
+            _target = _peasantObjective.transform;
+            Debug.Log("Found Work: " + _peasantObjective.name);
+            _peasantObjectiveFound = true;
+        }
 
+        WorkReady();
     }
 
-    void ObjectiveFound()
+    void WorkReady()
     {
-        _peasantObjectiveFound = true;
-
         if (_peasantJobFound == true && _peasantObjectiveFound == true)
         {
             _peasantWorkReady = true;
+            Debug.Log("Work Ready!");
+        }
+        else
+        {
+            Awake();
         }
     }
 
@@ -100,12 +118,15 @@ public class PeasantBehaviour : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        _target = null;
-        GetClosestChest(_target);
-        //_target = _newTarget
+        if (col = _peasantObjective.GetComponent<BoxCollider2D>())
+        {
+            _target = null;
+
+            NoCurrentObjective();
+        }
     }
 
-    Transform GetClosestChest (Transform[] chests)
+        Transform GetClosestChest (Transform[] chests)
     {
         Transform bestTarget = null;
         float closestDistanceSqr = Mathf.Infinity;
