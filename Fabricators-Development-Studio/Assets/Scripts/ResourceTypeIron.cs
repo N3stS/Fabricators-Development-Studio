@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ResourceTypeIron : MonoBehaviour
 {
-    [HideInInspector] public string _resourceType = "iron";
-
     [HideInInspector] public int _resourceAmount;
     
     void Awake()

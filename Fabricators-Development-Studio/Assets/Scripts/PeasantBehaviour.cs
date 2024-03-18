@@ -14,14 +14,12 @@ public class PeasantBehaviour : MonoBehaviour
     private List<GameObject> _factory = new List<GameObject>();
     
     private GameObject _target;
+    
     private Transform _targetPos;
     private Transform[] _newTarget;
-    private List<GameObject> workObjectives = new List<GameObject>();
-    private float dist;
-    private float Dist;
-    private GameObject tempObjective;
-    private GameObject TempObjective;
-    int count;
+
+    private int count;
+    [HideInInspector] public string _carriedItem;
 
     void Awake()
     {
@@ -109,7 +107,7 @@ public class PeasantBehaviour : MonoBehaviour
         
         foreach (GameObject workObj in _chests)
         {
-            Debug.Log("Chest Loop Started");
+            //Debug.Log("Chest Loop Started");
             TempObjective = workObj;
 
             Dist = Vector3.Distance(TempObjective.transform.position, transform.position);
@@ -117,16 +115,16 @@ public class PeasantBehaviour : MonoBehaviour
             {
                 dist = Dist;
                 tempObjective = TempObjective;
-                Debug.Log(tempObjective + " " + dist);
+                //Debug.Log(tempObjective + " " + dist);
             }
             count++;
-            Debug.Log("Chest Loop: " + count);
+            //Debug.Log("Chest Loop: " + count);
         }
         
         _target = tempObjective;
         _target.GetComponent<BoxCollider2D>().isTrigger = true;
         _targetPos = _target.transform;
-        Debug.Log("Found Chest: " + _target.name);
+        //Debug.Log("Found Chest: " + _target.name);
         
         _peasantState.Moving();
         _peasantState.Working();
@@ -142,7 +140,7 @@ public class PeasantBehaviour : MonoBehaviour
         
         foreach (GameObject workObj in _work)
         {
-            Debug.Log("Work Loop Started");
+            //Debug.Log("Work Loop Started");
             TempObjective = workObj;
 
             Dist = Vector3.Distance(TempObjective.transform.position, transform.position);
@@ -150,16 +148,16 @@ public class PeasantBehaviour : MonoBehaviour
             {
                 dist = Dist;
                 tempObjective = TempObjective;
-                Debug.Log(tempObjective + " " + dist);
+                //Debug.Log(tempObjective + " " + dist);
             }
-            count++;
-            Debug.Log("Work Loop: " + count);
+            //count++;
+            //Debug.Log("Work Loop: " + count);
         }
         
         _target = tempObjective;
         _targetPos = _target.transform;
         _target.GetComponent<BoxCollider2D>().isTrigger = true;
-        Debug.Log("Found Work: " + _target.name);
+        //Debug.Log("Found Work: " + _target.name);
         
         _peasantState.Moving();
         _peasantState.Working();
@@ -182,12 +180,20 @@ public class PeasantBehaviour : MonoBehaviour
         {
             if (col.CompareTag("Chests"))
             {
+                col.GetComponent<ContainerBehaviour>().ResourceAdded(_carriedItem);
+
+                _carriedItem = null;
+
                 _peasantState.EmptyHanded();
                 
                 TargetReached();
             }
             else if (col.CompareTag("Work"))
             {
+                col.GetComponent<ResourceZoneMaterial>().ResourceRemoved();
+
+                _carriedItem = "Iron";
+
                 _peasantState.Carrying();
                 
                 TargetReached();
