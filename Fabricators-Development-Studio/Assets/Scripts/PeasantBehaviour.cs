@@ -124,8 +124,9 @@ public class PeasantBehaviour : MonoBehaviour
         }
         
         _target = tempObjective;
+        _target.GetComponent<BoxCollider2D>().isTrigger = true;
         _targetPos = _target.transform;
-        Debug.Log("Found Work: " + _target.name);
+        Debug.Log("Found Chest: " + _target.name);
         
         _peasantState.Moving();
         _peasantState.Working();
@@ -157,6 +158,7 @@ public class PeasantBehaviour : MonoBehaviour
         
         _target = tempObjective;
         _targetPos = _target.transform;
+        _target.GetComponent<BoxCollider2D>().isTrigger = true;
         Debug.Log("Found Work: " + _target.name);
         
         _peasantState.Moving();
@@ -165,6 +167,7 @@ public class PeasantBehaviour : MonoBehaviour
 
     void TargetReached()
     {
+        _target.GetComponent<BoxCollider2D>().isTrigger = false;
         _target = null;
         
         _peasantState.Stopped();
@@ -201,135 +204,4 @@ public class PeasantBehaviour : MonoBehaviour
             }
         }
     }
-    
-    
-    
-    
-    
-    
-    /*void NoCurrentJob()
-    {
-        _peasantJobFound = true;
-
-        JobFound();
-    }
-
-    void JobFound()
-    {
-        if (_peasantObjectiveFound)
-        {
-            WorkReady();
-        }
-        else
-        {
-            NoCurrentObjective();
-        }
-    }
-
-    void NoCurrentObjective()
-    {
-        if (!_peasantObjectiveFound)
-        {
-            Dist = 9999999;
-            dist = 9999999;
-            tempObjective = null;
-            TempObjective = null;
-            foreach (var workObj in workObjectives)
-            {
-                Debug.Log("Loop Started");
-                TempObjective = workObj;
-
-                Dist = Vector3.Distance(TempObjective.transform.position, transform.position);
-                if (Dist < dist)
-                {
-                    dist = Dist;
-                    tempObjective = TempObjective;
-                    Debug.Log(tempObjective + " " + dist);
-                }
-                /*else
-                {
-                    dist = Dist;
-                    tempObjective = TempObjective;
-                }
-                count++;
-                Debug.Log("Loop: " + count);
-            }
-
-            _peasantObjective = tempObjective;
-            //_peasantObjective = GameObject.FindGameObjectWithTag("Work");
-            _targetPos = _peasantObjective.transform;
-            Debug.Log("Found Work: " + _peasantObjective.name);
-            _peasantObjectiveFound = true;
-        }
-        else if (_peasantObjectiveFound && _peasantObjective.tag == "Work")
-        {
-            _peasantObjective = null;
-            _peasantObjective = GameObject.FindGameObjectWithTag("Chests");
-            _targetPos = _peasantObjective.transform;
-            Debug.Log("Found Work: " + _peasantObjective.name);
-            _peasantObjectiveFound = true;
-        }
-        else if (_peasantObjectiveFound && _peasantObjective.tag == "Chests")
-        {
-            //_peasantObjective = null;
-            //_peasantObjective = GameObject.FindGameObjectWithTag("Work");
-            //_targetPos = _peasantObjective.transform;
-            //Debug.Log("Found Work: " + _peasantObjective.name);
-            //_peasantObjectiveF
-        }
-
-        WorkReady();
-    }
-
-    void WorkReady()
-    {
-        if (_peasantJobFound == true && _peasantObjectiveFound == true)
-        {
-            _peasantWorkReady = true;
-            Debug.Log("Work Ready!");
-        }
-        else
-        {
-            Awake();
-        }
-    }
-
-    void NotMovingTowardsObjective()
-    {
-
-    }
-
-    void MovingTowardsObjective()
-    {
-
-    }
-
-    void NotPerformingJob()
-    {
-
-    }
-
-    void PerformingJob()
-    {
-
-    }
-
-    Transform GetClosestChest (Transform[] chests)
-    {
-        Transform bestTarget = null;
-        float closestDistanceSqr = Mathf.Infinity;
-        Vector3 currentPosition = transform.position;
-        foreach(Transform potentialTarget in chests)
-        {
-            Vector3 directionToTarget = potentialTarget.position - currentPosition;
-            float dSqrToTarget = directionToTarget.sqrMagnitude;
-            if(dSqrToTarget < closestDistanceSqr)
-            {
-                closestDistanceSqr = dSqrToTarget;
-                bestTarget = potentialTarget;
-            }
-        }
-     
-        return bestTarget;
-    }*/
 }

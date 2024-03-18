@@ -6,15 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="779014e1-5113-46c3-9a8b-d1b78501ee45" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Fabricators-Development-Studio/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Fabricators-Development-Studio/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/DevelopmentScenes/AIBehaviourDevelopmentScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DevelopmentScenes/AIBehaviourDevelopmentScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PeasantBehaviour.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PeasantBehaviour.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PeasantMovement.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PeasantMovement.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PeasantState.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PeasantState.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ResourceTypeIron.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/ResourceTypeIron.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PeasantBehaviour.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PeasantBehaviour.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +101,7 @@
       <updated>1710513787635</updated>
       <workItem from="1710513791876" duration="4428000" />
       <workItem from="1710744766395" duration="2902000" />
-      <workItem from="1710767118956" duration="4064000" />
+      <workItem from="1710767118956" duration="4467000" />
     </task>
     <servers />
   </component>
