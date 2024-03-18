@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Chests
   - Work
+  - Factory
   layers:
   - Default
   - TransparentFX
