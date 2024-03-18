@@ -11,11 +11,21 @@ public class PeasantBehaviour : MonoBehaviour
     private bool _peasantWorkReady = false;
     private bool _peasantJobFound = true;
     private bool _peasantObjectiveFound = false;
-    private Transform _target;
+    private Transform _targetPos;
     private Transform[] _newTarget;
+    private List<GameObject> workObjectives = new List<GameObject>();
+    private float dist;
+    private float Dist;
+    private GameObject tempObjective;
+    private GameObject TempObjective;
+    int count;
 
     void Awake()
     {
+        foreach(GameObject workObj in GameObject.FindGameObjectsWithTag("Work"))
+        {
+            workObjectives.Add(workObj);
+        }
         if (_peasantJob == null)
         {
             NoCurrentJob();
@@ -26,13 +36,18 @@ public class PeasantBehaviour : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        
+    }
+
     void Update()
     {
         Debug.Log("Indeed");
         if (_peasantWorkReady)
         {
             var step = GetComponent<PeasantMovement>()._peasantSpeed * Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, _target.position, step);
+            transform.position = Vector3.MoveTowards(transform.position, _targetPos.position, step);
         }
     }
     void NoCurrentJob()
@@ -58,8 +73,34 @@ public class PeasantBehaviour : MonoBehaviour
     {
         if (!_peasantObjectiveFound)
         {
-            _peasantObjective = GameObject.FindGameObjectWithTag("Work");
-            _target = _peasantObjective.transform;
+            Dist = 9999999;
+            dist = 9999999;
+            tempObjective = null;
+            TempObjective = null;
+            foreach (var workObj in workObjectives)
+            {
+                Debug.Log("Loop Started");
+                TempObjective = workObj;
+
+                Dist = Vector3.Distance(TempObjective.transform.position, transform.position);
+                if (Dist < dist)
+                {
+                    dist = Dist;
+                    tempObjective = TempObjective;
+                    Debug.Log(tempObjective + " " + dist);
+                }
+                else
+                {
+                    dist = Dist;
+                    tempObjective = TempObjective;
+                }
+                count++;
+                Debug.Log("Loop: " + count);
+            }
+
+            _peasantObjective = tempObjective;
+            //_peasantObjective = GameObject.FindGameObjectWithTag("Work");
+            _targetPos = _peasantObjective.transform;
             Debug.Log("Found Work: " + _peasantObjective.name);
             _peasantObjectiveFound = true;
         }
@@ -67,7 +108,7 @@ public class PeasantBehaviour : MonoBehaviour
         {
             _peasantObjective = null;
             _peasantObjective = GameObject.FindGameObjectWithTag("Chests");
-            _target = _peasantObjective.transform;
+            _targetPos = _peasantObjective.transform;
             Debug.Log("Found Work: " + _peasantObjective.name);
             _peasantObjectiveFound = true;
         }
@@ -75,7 +116,7 @@ public class PeasantBehaviour : MonoBehaviour
         {
             _peasantObjective = null;
             _peasantObjective = GameObject.FindGameObjectWithTag("Work");
-            _target = _peasantObjective.transform;
+            _targetPos = _peasantObjective.transform;
             Debug.Log("Found Work: " + _peasantObjective.name);
             _peasantObjectiveFound = true;
         }
@@ -120,7 +161,7 @@ public class PeasantBehaviour : MonoBehaviour
     {
         if (col = _peasantObjective.GetComponent<BoxCollider2D>())
         {
-            _target = null;
+            _targetPos = null;
 
             NoCurrentObjective();
         }
