@@ -1,0 +1,70 @@
+"use strict";
+
+var isGC =
+    navigator.userAgent.indexOf("CriOS") >= 0 || // iOS Chrome check
+    (navigator.userAgent.indexOf("Chrome/") >= 0 &&
+      navigator.userAgent.indexOf("Edg/") < 0 &&
+      navigator.userAgent.indexOf("OPR/") < 0),
+
+  isFF = navigator.userAgent.indexOf("Firefox/") >= 0,
+
+  isOpera =
+    (!!window.opr && !!opr.addons) ||
+    !!window.opera ||
+    navigator.userAgent.indexOf(" OPR/") >= 0,
+
+  isEdge = navigator.userAgent.indexOf("Edg/") >= 0,
+  
+  isSafari =
+    /constructor/i.test(window.HTMLElement) ||
+    (function(p) {
+      return p.toString() === "[object SafariRemoteNotification]";
+    })(
+      !window["safari"] ||
+        (typeof safari !== "undefined" && safari.pushNotification)
+    ) || navigator.userAgent.indexOf('AppleWebKit/') >= 0,
+  
+  isIE = /*@cc_on!@*/ false || !!document.documentMode;
+
+var appEl = document.querySelector("#app"),
+    incompatibleEl = document.querySelector("#incompatible-browser-container");
+
+var isMobile = typeof window.orientation !== "undefined" || navigator.userAgent.indexOf("IEMobile") !== -1;
+
+if (isGC || isFF || isEdge || isOpera || isSafari) {
+  document.body.removeChild(incompatibleEl);
+} else {
+  if (isMobile) {
+    handleUnsupportedBrowser("mobile");
+  } else if (isIE) {
+    handleUnsupportedBrowser("IE");
+  } else {
+    handleUnsupportedBrowser("unknown");
+  }
+}
+
+var closeBtn = document.getElementById("close-popup");
+var textPanel = document.getElementById("text-ios");
+
+if (closeBtn && textPanel) {
+  closeBtn.addEventListener("click", function() {
+    if (textPanel.style.display !== "none") {
+      textPanel.style.display = "none";
+    }
+  });
+}
+
+function handleUnsupportedBrowser(typeBrowser) {
+  document.body.removeChild(appEl);
+  if (typeBrowser === "IE") {
+    incompatibleEl.style.display = "block";
+    try {
+      document.execCommand("Stop");
+    } catch (error) {}
+  } else {
+    incompatibleEl.style.display = "grid";
+    try {
+      window.stop();
+    } catch (error) {}
+  }
+}
