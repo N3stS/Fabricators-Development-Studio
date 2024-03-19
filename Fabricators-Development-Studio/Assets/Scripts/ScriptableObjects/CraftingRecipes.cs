@@ -6,5 +6,5 @@ using UnityEngine;
 
 public class CraftingRecipes : ScriptableObject
 {
-    public List<GameObject> _recipeRequirement = new List<GameObject>();
+    public List<ScriptableObject> RecipeRequirement = new List<ScriptableObject>();
 }

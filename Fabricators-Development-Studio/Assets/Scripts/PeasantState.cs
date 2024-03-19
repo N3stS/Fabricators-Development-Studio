@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class PeasantState : MonoBehaviour
 {
-    public bool _idle;
-    public bool _busy;
-    public bool _moving;
-    public bool _stopped;
-    public bool _error;
-    public bool _emptyHanded;
-    public bool _carrying;
+    public bool idle;
+    public bool busy;
+    public bool moving;
+    public bool stopped;
+    public bool error;
+    public bool emptyHanded;
+    public bool carrying;
 
     void Awake()
     {
@@ -21,26 +21,26 @@ public class PeasantState : MonoBehaviour
     
     public void Idling()
     {
-        _busy = false;
-        _idle = true;
+        busy = false;
+        idle = true;
     }
     
     public void Working()
     {
-        _idle = false;
-        _busy = true;
+        idle = false;
+        busy = true;
     }
     
     public void Moving()
     {
-        _stopped = false;
-        _moving = true;
+        stopped = false;
+        moving = true;
     }
     
     public void Stopped()
     {
-        _moving = false;
-        _stopped = true;
+        moving = false;
+        stopped = true;
     }
     
     public void Error()
@@ -50,13 +50,13 @@ public class PeasantState : MonoBehaviour
 
     public void EmptyHanded()
     {
-        _carrying = false;
-        _emptyHanded = true;
+        carrying = false;
+        emptyHanded = true;
     }
 
     public void Carrying()
     {
-        _emptyHanded = false;
-        _carrying = true;
+        emptyHanded = false;
+        carrying = true;
     }
 }

@@ -6,6 +6,6 @@ using UnityEngine;
 
 public class CraftingRecipesManager : ScriptableObject
 {
-    public List<string> recipeName = new List<string>();
-    public List<CraftingRecipes> _recipe = new List<CraftingRecipes>();
+    public List<string> RecipeName = new List<string>();
+    public List<CraftingRecipes> Recipe = new List<CraftingRecipes>();
 }

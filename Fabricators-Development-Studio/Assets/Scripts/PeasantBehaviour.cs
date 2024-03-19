@@ -9,9 +9,9 @@ public class PeasantBehaviour : MonoBehaviour
     private PeasantState _peasantState;
     private PeasantMovement _peasantMovement;
 
-    private List<GameObject> _work = new List<GameObject>();
-    private List<GameObject> _chests = new List<GameObject>();
-    private List<GameObject> _factory = new List<GameObject>();
+    private List<GameObject> Work = new List<GameObject>();
+    private List<GameObject> Chests = new List<GameObject>();
+    private List<GameObject> Factory = new List<GameObject>();
     
     private GameObject _target;
     
@@ -28,18 +28,18 @@ public class PeasantBehaviour : MonoBehaviour
         
         foreach(GameObject workObj in GameObject.FindGameObjectsWithTag("Work"))
         {
-            _work.Add(workObj);
+            Work.Add(workObj);
         }
         foreach (GameObject workObj in GameObject.FindGameObjectsWithTag("Chests"))
         {
-            _chests.Add(workObj);
+            Chests.Add(workObj);
         }
         foreach (GameObject workObj in GameObject.FindGameObjectsWithTag("Factory"))
         {
-            _factory.Add(workObj);
+            Factory.Add(workObj);
         }
         
-        if (_peasantState._idle)
+        if (_peasantState.idle)
         {
             PeasantCheckState();
         }
@@ -51,12 +51,12 @@ public class PeasantBehaviour : MonoBehaviour
 
     void Update()
     {
-        if (_peasantState._moving)
+        if (_peasantState.moving)
         {
             var step = GetComponent<PeasantMovement>()._peasantSpeed * Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, _targetPos.position, step);
         }
-        else if (_peasantState._stopped)
+        else if (_peasantState.stopped)
         {
             var step = 0;
             transform.position = Vector3.MoveTowards(transform.position, _targetPos.position, step);
@@ -69,13 +69,13 @@ public class PeasantBehaviour : MonoBehaviour
 
     void PeasantCheckState()
     {
-        if (_peasantState._idle)
+        if (_peasantState.idle)
         {
-            if (_peasantState._emptyHanded)
+            if (_peasantState.emptyHanded)
             {
                 LookingForWork();
             }
-            else if (_peasantState._carrying)
+            else if (_peasantState.carrying)
             {
                 LookingForChest();
             }
@@ -84,9 +84,9 @@ public class PeasantBehaviour : MonoBehaviour
                 _peasantState.Error();
             }
         }
-        else if (_peasantState._busy)
+        else if (_peasantState.busy)
         {
-            if (_peasantState._carrying)
+            if (_peasantState.carrying)
             {
                 LookingForChest();
             }
@@ -105,7 +105,7 @@ public class PeasantBehaviour : MonoBehaviour
         GameObject tempObjective = null;
         GameObject TempObjective = null;
         
-        foreach (GameObject workObj in _chests)
+        foreach (GameObject workObj in Chests)
         {
             //Debug.Log("Chest Loop Started");
             TempObjective = workObj;
@@ -138,7 +138,7 @@ public class PeasantBehaviour : MonoBehaviour
         GameObject tempObjective = null;
         GameObject TempObjective = null;
         
-        foreach (GameObject workObj in _work)
+        foreach (GameObject workObj in Work)
         {
             //Debug.Log("Work Loop Started");
             TempObjective = workObj;

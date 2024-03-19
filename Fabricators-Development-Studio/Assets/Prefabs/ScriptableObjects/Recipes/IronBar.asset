@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3a46fc4c1efa304b89bec6081678ce8, type: 3}
   m_Name: IronBar
   m_EditorClassIdentifier: 
-  _recipeRequirement:
-  - {fileID: 0}
-  - {fileID: 0}
+  RecipeRequirement:
+  - {fileID: 11400000, guid: 6ddb9291697cb06409cceb9378e2e161, type: 2}
+  - {fileID: 11400000, guid: 1962738bd824a4a4098fd5bb705cf1f8, type: 2}
