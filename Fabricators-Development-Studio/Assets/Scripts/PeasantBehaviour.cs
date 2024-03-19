@@ -122,7 +122,7 @@ public class PeasantBehaviour : MonoBehaviour
         }
         
         _target = tempObjective;
-        _target.GetComponent<BoxCollider2D>().isTrigger = true;
+        _target.GetComponent<ContainerBehaviour>()._targeted++;
         _targetPos = _target.transform;
         //Debug.Log("Found Chest: " + _target.name);
         
@@ -156,7 +156,7 @@ public class PeasantBehaviour : MonoBehaviour
         
         _target = tempObjective;
         _targetPos = _target.transform;
-        _target.GetComponent<BoxCollider2D>().isTrigger = true;
+        _target.GetComponent<ResourceZoneMaterial>()._targeted++;
         //Debug.Log("Found Work: " + _target.name);
         
         _peasantState.Moving();
@@ -165,7 +165,15 @@ public class PeasantBehaviour : MonoBehaviour
 
     void TargetReached()
     {
-        _target.GetComponent<BoxCollider2D>().isTrigger = false;
+        if (_target.tag == "Work")
+        {
+            _target.GetComponent<ResourceZoneMaterial>()._targeted--;
+        }
+        else if (_target.tag == "Chests")
+        {
+            _target.GetComponent<ContainerBehaviour>()._targeted--;
+        }
+      
         _target = null;
         
         _peasantState.Stopped();
